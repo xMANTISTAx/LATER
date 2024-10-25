@@ -1,25 +1,28 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# [Project Name] 🎯
+# Why I was late
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Late Comer
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Christena Francis - SCMS SCHOOL OF ENGINEERING AND TECHNOLOGY
+- Member 2: Eshan James - SCMS SCHOOL OF ENGINEERING AND TECHNOLOGY
 
 ### Project Description
-[2-3 lines about what your project does]
+You have to get someplace but there is no way you're getting there early, your wayy too cool to reach on time or you really don't want to go or let's say the host isn't exactly on your good side. How are you gonna be late without an over-complicated explanation of whys?
+
+A map that will take you where you want to go with a slight delay
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Google maps gives you the fastest and shortest route to any destination 
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Add an extra few hours to the mix so now it's Google maps that made you late by taking the longest route available.
+With an API integration,Google maps is going to be a solution to all the hassles that come with showing up late to an event or destination.
+Would you make it on time? Sure with only a 2 hours setback cause "Google maps" showed me the "wrong" route.
 
 ## Technical Details
 ### Technologies/Components Used
