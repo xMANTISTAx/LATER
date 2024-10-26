@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LATER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #map {
+            height: calc(100vh - 60px);
+            width: 100%;
+        }
+
+        #bottom-panel {
+            height: 60px;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            z-index: 1001;
+        }
+
+        #bottom-panel input[type="text"] {
+            width: 45%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #bottom-panel select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #bottom-panel button {
+            background-color: #4285F4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #bottom-panel button:hover {
+            background-color: #357ae8;
+        }
+
+        #directions-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #222;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            z-index: 1001;
+            max-width: 300px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #directions-overlay h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        #directions-overlay p {
+            font-size: 16px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        #suggestions-start, #suggestions-end {
+            position: absolute;
+            bottom: 60px;
+            width: 45%;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        #suggestions-start div, #suggestions-end div {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #suggestions-start div:hover, #suggestions-end div:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <div id="bottom-panel">
+        <input type="text" id="start-location" placeholder="Starting location..." />
+        <input type="text" id="end-location" placeholder="Destination..." />
+        
+        <select id="delay">
+            <option value="slight">Slight Delay (10% more time)</option>
+            <option value="moderate">Delay (30% more time)</option>
+            <option value="heavy">Very Late (50% more time)</option>
+        </select>
+        
+        <button id="get-directions">Get Directions</button>
+    </div>
+
+    <div id="suggestions-start"></div>
+    <div id="suggestions-end"></div>
+
+    <div id="directions-overlay">
+        <h3>Directions</h3>
+        <p id="direction-details"></p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script>
+        const map = L.map('map').setView([37.7749, -122.4194], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        const startLocationInput = document.getElementById('start-location');
+        const endLocationInput = document.getElementById('end-location');
+        const suggestionsStart = document.getElementById('suggestions-start');
+        const suggestionsEnd = document.getElementById('suggestions-end');
+        const delayDropdown = document.getElementById('delay');
+        const directionDetails = document.getElementById('direction-details');
+        const directionsOverlay = document.getElementById('directions-overlay');
+
+        let startLocation = null;
+        let endLocation = null;
+
+        startLocationInput.addEventListener('input', function() {
+            fetchSuggestions(startLocationInput.value, suggestionsStart, setStartLocation);
+        });
+
+        endLocationInput.addEventListener('input', function() {
+            fetchSuggestions(endLocationInput.value, suggestionsEnd, setEndLocation);
+        });
+
+        function fetchSuggestions(query, suggestionsBox, callback) {
+            if (query.length > 2) {
+                fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        suggestionsBox.innerHTML = '';
+                        data.forEach(item => {
+                            const suggestionDiv = document.createElement('div');
+                            suggestionDiv.textContent = item.display_name;
+                            suggestionDiv.addEventListener('click', () => {
+                                callback(item);
+                                suggestionsBox.innerHTML = '';
+                            });
+                            suggestionsBox.appendChild(suggestionDiv);
+                        });
+                    });
+            } else {
+                suggestionsBox.innerHTML = '';
+            }
+        }
+
+        function setStartLocation(item) {
+            startLocation = { lat: item.lat, lon: item.lon };
+            startLocationInput.value = item.display_name;
+        }
+
+        function setEndLocation(item) {
+            endLocation = { lat: item.lat, lon: item.lon };
+            endLocationInput.value = item.display_name;
+        }
+
+        document.getElementById('get-directions').addEventListener('click', function() {
+            if (startLocation && endLocation) {
+                const selectedDelay = delayDropdown.value;
+                let delayFactor;
+
+                switch (selectedDelay) {
+                    case 'slight':
+                        delayFactor = 1.1;
+                        break;
+                    case 'moderate':
+                        delayFactor = 1.3;
+                        break;
+                    case 'heavy':
+                        delayFactor = 1.5;
+                        break;
+                    default:
+                        delayFactor = 1;
+                }
+
+                getDirections(startLocation, endLocation, delayFactor);
+            } else {
+                alert("Please select both start and destination locations.");
+            }
+        });
+
+        function getDirections(start, end, delayFactor) {
+            L.Routing.control({
+                waypoints: [
+                    L.latLng(start.lat, start.lon),
+                    L.latLng(end.lat, end.lon)
+                ],
+                routeWhileDragging: true
+            }).addTo(map);
+
+            const simulatedTime = (calculateTravelTime(start, end) * delayFactor).toFixed(2);
+            directionsOverlay.style.display = 'block';
+            directionDetails.textContent = `Estimated travel time with selected delay: ${simulatedTime} minutes`;
+        }
+
+        function calculateTravelTime(start, end) {
+            return 30;
+        }
+    </script>
+</body>
+</html>
