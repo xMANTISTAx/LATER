@@ -29,7 +29,7 @@ Would you make it on time? Sure with only a 2 hours setback cause "Google maps" 
 For Software:
 Here's a summary of the components used for your Google Maps clone with delay feature:
 
-- Languages: HTML, CSS, JavaScript
+- Languages: HTML
 - Frameworks: Leaflet Routing Machine
 - Libraries: Leaflet.js for map interactivity, OpenStreetMap for map tiles, Nominatim API for geocoding
 - Tools: VS Code, Figma
