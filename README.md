@@ -1,6 +1,6 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# Why I was late
+# LATER
 
 
 ## Basic Details
@@ -27,59 +27,80 @@ Would you make it on time? Sure with only a 2 hours setback cause "Google maps" 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+Here's a summary of the components used for your Google Maps clone with delay feature:
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- Languages: HTML, CSS, JavaScript
+- Frameworks: Leaflet Routing Machine
+- Libraries: Leaflet.js for map interactivity, OpenStreetMap for map tiles, Nominatim API for geocoding
+- Tools: VS Code, Figma
 
 ### Implementation
 For Software:
+
 # Installation
-[commands]
+
+
+1. Clone the Repository  
+   Clone the project repository to your local machine using:
+   
+   git clone <repository-url>
+   
+2. Navigate to Project Directory  
+   Change into the project's directory:
+   
+   cd <project-directory>
+   
+3. Install Dependencies  
+   If using a package manager (like npm for JavaScript or pip for Python), you would install dependencies with:
+   
+   npm install
+   
+   or
+   
+   pip install -r requirements.txt
+   
 
 # Run
-[commands]
+
+1. Start Local Server  
+   Use a local server to view the website. For example, with Python:
+   bash
+   python -m http.server
+   
+   or, if using Node.js with a package like live-server:
+   bash
+   live-server .
+   
+
+2. Open in Browser  
+   After starting the server, open your browser and go to:
+   
+   http://localhost:8000
+   
+   or whichever port your server is running on.
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1](Home Screen)
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![image](https://github.com/user-attachments/assets/ffc1ac7c-56b8-4333-8755-e01e9b978a73)
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+This is the home screen with the search options
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+![Screenshot2](Home screen with inputs given)
 
-For Hardware:
+![image](https://github.com/user-attachments/assets/89d1cac4-3487-4bfd-a97a-df00d8534342)
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
+Here the inputs for the search has been given
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+![Screenshot3](Result screen)
 
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+![image](https://github.com/user-attachments/assets/ce651459-6dc0-496b-8203-ac34cbb740af)
 
-![Build](Add photos of build process here)
-*Explain the build steps*
+Here the image shows the results of the input given
 
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
@@ -90,9 +111,8 @@ For Hardware:
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Eshan James: UI design and software implementation
+- Christena Francis: API integration and documentation
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
